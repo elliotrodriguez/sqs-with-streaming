@@ -41,7 +41,7 @@ async function sendToSQS(correlationId, messageType, content) {
         console.log(`Message sent to SQS: ${data.MessageId}`)
         return data.MessageId
     } catch (err) {
-        console.err(`Error! ${err}`)
+        console.error(`Error! ${err}`)
         throw err
     }
 }
@@ -58,7 +58,7 @@ app.get('/stream', async(req, res) => {
     try {
         await sendToSQS(correlationId, 'STREAM_STARTED', `Stream has started for correlationId ${correlationId}`)
     } catch(err) {
-        res.status(500).end('Error sending message to queue')
+        res.status(500).end('Error sending message to queue', err)
         return;
     }
 
